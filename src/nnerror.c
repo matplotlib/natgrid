@@ -1,7 +1,20 @@
+/*
+ * $Id: nnerror.c,v 1.10 2010/04/08 05:32:30 fred Exp $
+ */
+/************************************************************************
+*                                                                       *
+*                Copyright (C)  2000                                    *
+*        University Corporation for Atmospheric Research                *
+*                All Rights Reserved                                    *
+*                                                                       *
+*    The use of this Software is governed by a License Agreement.       *
+*                                                                       *
+************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 
-#define  MAX_ERROR 31
+#define  MAX_ERROR 33
 
 void     ErrorLog(int, char *, FILE *, char *);
 char     *ErrMsg(int);
@@ -28,6 +41,7 @@ void ErrorLog(int error, char *func, FILE *efile, char *smsg)
      error_status = error;
   }
   fprintf(efile,"%s",smsg);
+  Terminate();
 }
 
 char *ErrMsg(int i)
@@ -123,10 +137,12 @@ char *ErrMsg(int i)
     "Fortran DOUBLE PRECISION entries are not supported on UNICOS.",
 
 /* #030 */
-    "Error number out of range."
+    "Error number out of range.",
 
 /* #031 */
-    "Weights can be returned only for linear interpolation when in \n single point mode."
+    "Weights can be returned only for linear interpolation when in \n single point mode.",
+/* #032 */
+    "Single point mode terminated without its ever having been initialized."
    };
 
   if (i >= MAX_ERROR) {
