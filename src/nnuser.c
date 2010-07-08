@@ -1,3 +1,16 @@
+/*
+ * $Id: nnuser.c,v 1.9 2008/07/27 03:10:13 haley Exp $
+ */
+/************************************************************************
+*                                                                       *
+*                Copyright (C)  2000                                    *
+*        University Corporation for Atmospheric Research                *
+*                All Rights Reserved                                    *
+*                                                                       *
+*    The use of this Software is governed by a License Agreement.       *
+*                                                                       *
+************************************************************************/
+
 #include "nnuheads.h"
 #include "nnuhead.h"
 
@@ -56,8 +69,11 @@ void c_nngeti(char *pnam, int *ival)
    else if (!strncmp(pnam,"adf",3) OR !strncmp(pnam,"ADF",3)) {
       *ival = adf;
    }
+   else if (!strncmp(pnam,"mdm",3) OR !strncmp(pnam,"MDM",3)) {
+      *ival = maxmsg;
+   }
    else if (!strncmp(pnam,"dup",3) OR !strncmp(pnam,"DUP",3)) {
-      *ival = nndup;
+      printf("\n  Natgrid info: parameter 'dup' is no longer supported; duplicate\n                points are now culled automatically\n");
    }
    else {
       sprintf(emsg,"\n  Parameter name supplied is: %s\n",pnam);
@@ -118,51 +134,15 @@ void c_nnseti(char *pnam, int ival)
    else if (!strncmp(pnam,"adf",3) OR !strncmp(pnam,"ADF",3)) {
       adf = ival;
    }
+   else if (!strncmp(pnam,"mdm",3) OR !strncmp(pnam,"MDM",3)) {
+      maxmsg = ival;
+   }
    else if (!strncmp(pnam,"dup",3) OR !strncmp(pnam,"DUP",3)) {
       nndup = ival;
+      printf("\n  Natgrid info: parameter 'dup' is no longer supported; duplicate\n                points are now culled automatically\n");
    }
    else {
       sprintf(emsg,"\n  Parameter name supplied is: %s\n",pnam);
       ErrorHnd(23, "c_nnseti", stderr, emsg);
-   }
-}
-
-void NGCALLF(nnseti,NNSETI) (char *pnam, int *ival)
-{
-   c_nnseti(pnam, *ival);
-}
-void NGCALLF(nngeti,NNGETI) (char *pnam, int *ival)
-{
-   c_nngeti(pnam, ival);
-}
-
-void NGCALLF(fnnsetc,FNNSETC) (char *pnam, char *cval, int *clen)
-{
-   char cdum[256];
-   int i;
-
-   for (i = 0 ; i < *clen ; i++) {
-     cdum[i] = cval[i];
-   }
-   i = *clen;
-   cdum[i] = '\0';
-   c_nnsetc(pnam, cdum);
-}
-void NGCALLF(fnngetc,FNNGETC) (char *pnam, char *cval, int *clen)
-{
-   char cdum[256] = {" "};
-   int i,jf;
-
-   c_nngetc(pnam, cdum);
-   jf = 0;
-   for (i = 0 ; i < *clen ; i++) {
-      if ((cdum[i] != '\0') && (jf == 0)) {
-         cval[i] = cdum[i];
-      }
-      else
-      {
-         jf = 1;
-         cval[i] = ' ';
-      }
    }
 }

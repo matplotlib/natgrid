@@ -1,4 +1,13 @@
 /*
+ * $Id: nncrunch.c,v 1.11 2008/07/27 03:10:12 haley Exp $
+ */
+/************************************************************************
+*                                                                       *
+*    The use of this Software is governed by a License Agreement.       *
+*                                                                       *
+************************************************************************/
+
+/*
  *  The code in this file is based on code written and 
  *  copyrighted (C) by Dave Watson.  Dr. Watson retains the
  *  copyright to his original code.  Augmentations and changes
@@ -6,7 +15,7 @@
  */
 #include <stdlib.h>
 #include <math.h>
-/*#include <ncarg/ngmath.h>*/
+#include <ncarg/ngmath.h>
 #include "nncheads.h"
 #include "nnchead.h"
 #include "nntypes.h"

@@ -1,3 +1,16 @@
+/*
+ * $Id: nnghead.h,v 1.10 2008/07/27 04:02:37 haley Exp $
+ */
+/************************************************************************
+*                                                                       *
+*                Copyright (C)  2000                                    *
+*        University Corporation for Atmospheric Research                *
+*                All Rights Reserved                                    *
+*                                                                       *
+*    The use of this Software is governed by a License Agreement.       *
+*                                                                       *
+************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -24,7 +37,7 @@ extern  double  magx, magy, magz, magx_orig, magy_orig, magz_orig,
                 maxxy[2][3], magx_auto, magy_auto, magz_auto, *wts;
 
 extern  int     igrad, non_neg, densi, sdip, rads, southhemi,
-                extrap, adf, nndup;
+                extrap, adf, nndup, maxmsg;
 
 extern  int     datcnt, datcnt3, numtri, imag, numnei, iscale,
                 ext, *jndx, neicnt, optim, goodflag, updir,

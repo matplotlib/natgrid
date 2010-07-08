@@ -1,5 +1,17 @@
-#include <stdio.h>
-#include <string.h>
+/*
+ * $Id: nnuhead.h,v 1.12 2008/07/27 04:02:37 haley Exp $
+ */
+/************************************************************************
+*                                                                       *
+*                Copyright (C)  2000                                    *
+*        University Corporation for Atmospheric Research                *
+*                All Rights Reserved                                    *
+*                                                                       *
+*    The use of this Software is governed by a License Agreement.       *
+*                                                                       *
+************************************************************************/
+
+#include <ncarg/ngmath.h>
 
 #define EQ             ==
 #define NE             !=
@@ -8,7 +20,7 @@
 
 extern int       igrad,  densi,   non_neg,    sdip,        rads,
                  optim,  extrap,  southhemi,  updir, auto_scale,
-                 adf,    nndup,   single_point;
+                 adf,    nndup,   single_point, maxmsg;
 
 extern double    bI,        bJ,         magx,       magy,
                  magz,      horilap,    vertlap,    nuldat,
@@ -17,34 +29,4 @@ extern double    bI,        bJ,         magx,       magy,
 
 extern char      tri_file[], error_file[], emsg[];
 
-/*
- *  Fortran function macro.  This macro is used to provide the appropriate
- *  system-specific C function name for it to be Fortran callable.
- */
-#ifndef NGCALLF
-
-#if defined(UNICOS) || defined(NGCAPS)
-#define NGCALLF(reg,caps)       caps
-
-#elif   defined(RS6000) || defined(__hpux)
-#define NGCALLF(reg,caps)       reg
-
-#else
-#ifdef  __STDC__
-#define NGCALLF(reg,caps)       reg##_
-#else
-#define NGCALLF(reg,caps)       reg/**/_
-
-#endif  /* __STDC__ */
-#endif  /* UNICOS else ... */
-#endif  /* NGCALLF */
-
-void   c_nnsetc(char *, char *);
-void   c_nngetc(char *, char *);
-void   c_nnseti(char *, int);
-void   c_nngeti(char *, int *);
-
 extern void   ErrorHnd(int, char *, FILE *, char *);
-
-void  NGCALLF(nnseti,NNSETI) (char *, int *);
-void  NGCALLF(nngeti,NNGETI) (char *, int *);

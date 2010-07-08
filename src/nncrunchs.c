@@ -1,3 +1,16 @@
+/*
+ * $Id: nncrunchs.c,v 1.15 2008/07/27 03:10:13 haley Exp $
+ */
+/************************************************************************
+*                                                                       *
+*                Copyright (C)  2000                                    *
+*        University Corporation for Atmospheric Research                *
+*                All Rights Reserved                                    *
+*                                                                       *
+*    The use of this Software is governed by a License Agreement.       *
+*                                                                       *
+************************************************************************/
+
 #include "nncheads.h"
 #include "nnchead.h"
 #include "nntypes.h"
@@ -300,21 +313,24 @@ data_limits:
 
 /*
  *  Determine if any input data coordinates are duplicated.
+ *  [this is now handled at the top level; the code is left
+ *  here commented out for historical purposes.]
+ * 
+ * if (nndup == 1) {
+ *    for (i0 = 0 ; i0 < datcnt ; i0++) {
+ *       for (i1 = i0+1 ; i1 < datcnt ; i1++) {
+ *          if ( (points[i0][0] == points[i1][0]) &&
+ *             (points[i0][1] == points[i1][1]) )
+ *          {
+ *             sprintf(emsg,"\n  Coordinates %d and %d are identical.\n",i0,i1);
+ *             ErrorHnd(2, "ReadData", stderr, emsg);
+ *             error_status = 2;
+ *             return (error_status);
+ *          }
+ *       }
+ *    }
+ * }
  */
-   if (nndup == 1) {
-      for (i0 = 0 ; i0 < datcnt ; i0++) {
-         for (i1 = i0+1 ; i1 < datcnt ; i1++) {
-            if ( (points[i0][0] == points[i1][0]) &&
-               (points[i0][1] == points[i1][1]) )
-            {
-               sprintf(emsg,"\n  Coordinates %d and %d are identical.\n",i0,i1);
-               ErrorHnd(2, "ReadData", stderr, emsg);
-               error_status = 2;
-               return (error_status);
-            }
-         }
-      }
-   }
 
 /*
  *  Introduce a small random perturbation into the coordinate values.
@@ -654,6 +670,12 @@ void c_nnpnts(float x, float y, float *point)
 }
 void c_nnpntend()
 {
+   if (single_point == 0) {
+     ErrorHnd(32, "c_nnpntend", stderr, "\n");
+     error_status = 32;
+     return;
+   }
+
    single_point = 0;
    first_single = 0;
    horilap = horilap_save;

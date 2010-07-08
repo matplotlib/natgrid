@@ -1,3 +1,16 @@
+/*
+ * $Id: nnusers.c,v 1.9 2008/07/27 03:10:13 haley Exp $
+ */
+/************************************************************************
+*                                                                       *
+*                Copyright (C)  2000                                    *
+*        University Corporation for Atmospheric Research                *
+*                All Rights Reserved                                    *
+*                                                                       *
+*    The use of this Software is governed by a License Agreement.       *
+*                                                                       *
+************************************************************************/
+
 #include "nnuheads.h"
 #include "nnuhead.h"
 
@@ -97,93 +110,7 @@ void c_nnsetr(char *pnam, float dval)
    }
    else {
       sprintf(emsg,"\n  Parameter name supplied is: %s\n",pnam);
-      ErrorHnd(23, "c_nngetc", stderr, emsg);
+      ErrorHnd(23, "c_nnsetr", stderr, emsg);
    }
 }
 
-/*
- *  C entries in support of the Fortran interface.
- */
-void NGCALLF(natgrids,NATGRIDS) (int *n, float *x, float *y, float *z, 
-                int *nxg, int *nyg, float *xg, float *yg, 
-                float *zg, int *ier)
-{
-   float *zar;
-   int   nn, mm;
-
-   zar = c_natgrids(*n, x, y, z, *nxg, *nyg, xg, yg, ier);
-
-   if (*ier) return;
-
-   for (mm = 0 ; mm < *nxg ; mm++) {
-     for (nn = 0 ; nn < *nyg ; nn++) {
-       *(zg + nn * (*nxg) + mm) = zar[mm*(*nyg)+nn];
-     }
-   }    
-   free(zar);
-
-   return;
-}
-void NGCALLF(nnsetr,NNSETR) (char *pnam, float *rval)
-{
-   c_nnsetr(pnam, *rval);
-}
-void NGCALLF(nngetr,NNGETR) (char *pnam, float *rval)
-{
-   c_nngetr(pnam, rval);
-}
-
-void NGCALLF(nngetslopes,NNGETSLOPES) (int *row, int *col, 
-             float *slope, int *ier)
-{
-   c_nngetslopes(*row-1, *col-1, slope, ier);
-}
-void NGCALLF(nngetaspects,NNGETASPECTS) (int *row, int *col, 
-             float *aspect, int *ier)
-{
-   c_nngetaspects(*row-1, *col-1, aspect, ier);
-}
-void NGCALLF(nnpntinits,NNPNTINITS) (int *n, float *x, float *y, float *z)
-{
-   c_nnpntinits (*n, x, y, z);
-}
-void NGCALLF(nnpnts,NNPNTS) (float *x, float *y, float *point)
-{
-   c_nnpnts (*x, *y, point);
-}
-void NGCALLF(nnpntend,NNPNTEND) ()
-{
-   c_nnpntend ();
-}
-void NGCALLF(nngetwts,NNGETWTS) (int *numw, int *neighs, float *wts, float *px, float *py, float *pz)
-{
-   int i;
-
-   if (igrad || !single_point) {
-      ErrorHnd(31, "c_nngetwts", stderr, emsg);
-   }
-   c_nngetwts(numw, neighs, wts, px, py, pz);
-
-/*
- *  Adjust the indices for Fortran.
- */
-   for (i = 0; i < *numw; i++) {
-     neighs[i]++;
-   }
-}
-void NGCALLF(nngetwtsd,NNGETWTSD) (int *numw, int *neighs, double *wts, double *px, double *py, double *pz)
-{
-   int i;
-
-   if (igrad || !single_point) {
-      ErrorHnd(31, "c_nngetwtsd", stderr, emsg);
-   }
-   c_nngetwtsd(numw, neighs, wts, px, py, pz);
-
-/*
- *  Adjust the indices for Fortran.
- */
-   for (i = 0; i < *numw; i++) {
-     neighs[i]++;
-   }
-}

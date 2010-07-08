@@ -1,4 +1,17 @@
 /*
+ * $Id: natgrid.c,v 1.7 2008/07/27 03:10:12 haley Exp $
+ */
+/************************************************************************
+*                                                                       *
+*                Copyright (C)  2000                                    *
+*        University Corporation for Atmospheric Research                *
+*                All Rights Reserved                                    *
+*                                                                       *
+*    The use of this Software is governed by a License Agreement.       *
+*                                                                       *
+************************************************************************/
+
+/*
  *  This file contains the settings for most of the
  *  global variables by way of including nnmhead.h .
  */

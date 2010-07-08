@@ -1,6 +1,15 @@
 /*
- * $Id: nntypes.h,v 1.3 2000/08/22 03:34:55 haley Exp $
+ * $Id: nntypes.h,v 1.4 2008/07/27 04:02:37 haley Exp $
  */
+/************************************************************************
+*                                                                       *
+*                Copyright (C)  2000                                    *
+*        University Corporation for Atmospheric Research                *
+*                All Rights Reserved                                    *
+*                                                                       *
+*    The use of this Software is governed by a License Agreement.       *
+*                                                                       *
+************************************************************************/
 
 struct datum
 {  double       values[3];

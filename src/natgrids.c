@@ -1,4 +1,20 @@
+/*
+ * $Id: natgrids.c,v 1.14 2008/07/27 03:10:12 haley Exp $
+ */
+/************************************************************************
+*                                                                       *
+*                Copyright (C)  2000                                    *
+*        University Corporation for Atmospheric Research                *
+*                All Rights Reserved                                    *
+*                                                                       *
+*    The use of this Software is governed by a License Agreement.       *
+*                                                                       *
+************************************************************************/
+
+#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <ncarg/ngmath.h>
 #include "nnghead.h"
 #include "nngheads.h"
 #include "nnexver.h"
@@ -7,8 +23,43 @@ float *c_natgrids(int n, float x[], float y[], float z[],
                   int nxi, int nyi, float xi[], float yi[], int *ier)
 {  
    float **data_out=NULL, *rtrn_val=NULL;
+   float *x_sav, *y_sav, *z_sav, *darray;
+   int n_sav,i; 
 
    *ier = 0;
+
+/*
+ *  Check for duplicate input values.  Duplicate triples will be
+ *  culled, but duplicate coordinates with different data values 
+ *  will produce an error.
+ */
+   if (single_point == 0)
+   {
+     n_sav = n;
+     x_sav = (float *) malloc(n*sizeof(float));
+     y_sav = (float *) malloc(n*sizeof(float));
+     z_sav = (float *) malloc(n*sizeof(float));
+     memcpy((void *)x_sav, (void *)x, n*sizeof(float));
+     memcpy((void *)y_sav, (void *)y, n*sizeof(float));
+     memcpy((void *)z_sav, (void *)z, n*sizeof(float));
+
+     darray = (float *) malloc(3*n*sizeof(float));
+     for (i = 0; i < n; i++) {
+       darray[3*i  ] = x[i];
+       darray[3*i+1] = y[i];
+       darray[3*i+2] = z[i];
+     }
+
+     qsort( (void *)darray, n, 3*sizeof(float), comp_striples);
+     n = cull_striples(n_sav, darray);
+
+     for (i = 0; i < n; i++) {
+       x[i] = darray[3*i  ];
+       y[i] = darray[3*i+1];
+       z[i] = darray[3*i+2];
+     }
+     free(darray);
+   }
 
    if (single_point == 0)
    {
@@ -62,6 +113,15 @@ float *c_natgrids(int n, float x[], float y[], float z[],
 
    rtrn_val = data_out[0];
    free(data_out);
+   if (single_point == 0)
+   {
+      memcpy((void *)x, (void *)x_sav, n*sizeof(float));
+      memcpy((void *)y, (void *)y_sav, n*sizeof(float));
+      memcpy((void *)z, (void *)z_sav, n*sizeof(float));
+      free(x_sav);
+      free(y_sav);
+      free(z_sav);
+   }
    return (rtrn_val);
 }
 void Initialize(int n, float x[], float y[], int nxi, int nyi, 

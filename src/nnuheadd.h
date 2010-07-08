@@ -1,46 +1,20 @@
-void   c_nnsetrd(char *, double);
-void   c_nngetrd(char *, double *);
+/*
+ * $Id: nnuheadd.h,v 1.11 2008/07/27 04:02:37 haley Exp $
+ */
+/************************************************************************
+*                                                                       *
+*                Copyright (C)  2000                                    *
+*        University Corporation for Atmospheric Research                *
+*                All Rights Reserved                                    *
+*                                                                       *
+*    The use of this Software is governed by a License Agreement.       *
+*                                                                       *
+************************************************************************/
+
+#include <ncarg/ngmath.h>
 
 extern void   c_nngetsloped(int, int, double *, int *);
 extern void   c_nngetaspectd(int, int, double *, int *);
 extern void   c_nnpntinitd(int, double *, double *, double *);
 extern void   c_nnpntd(double, double, double *);
 extern void   c_nnpntendd();
-
-/*
- *  Fortran function macro.  This macro is used to provide the appropriate
- *  system-specific C function name for it to be Fortran callable.
- */
-#ifndef NGCALLF
-
-#if defined(UNICOS) || defined(NGCAPS)
-#define NGCALLF(reg,caps)       caps
-
-#elif   defined(RS6000) || defined(__hpux)
-#define NGCALLF(reg,caps)       reg
-
-#else
-#ifdef  __STDC__
-#define NGCALLF(reg,caps)       reg##_
-#else
-#define NGCALLF(reg,caps)       reg/**/_
-
-#endif  /* __STDC__ */
-#endif  /* UNICOS else ... */
-#endif  /* NGCALLF */
-
-/*
- *  Fortran entry points.
- */
-void  NGCALLF(natgridd,NATGRIDD) (int *, double *, double *, double *,
-              int *, int *, double *, double *, double *, int *);
-void  NGCALLF(nnsetrd,NNSETRD) (char *, double *);
-void  NGCALLF(nngetrd,NNGETRD) (char *, double *);
-void  NGCALLF(nngetsloped,NNGETSLOPED) (int *, int *, double *, int *);
-void  NGCALLF(nngetaspectd,NNGETASPECTD) (int *, int *, double *, int *);
-void  NGCALLF(nnpntinitd,NNPNTINITD) (int *, double *, double *, double *);
-void  NGCALLF(nnpntd,NNPNTD) (double *, double *, double *);
-void  NGCALLF(nnpntendd,NNPNTENDD) ();
-
-double  *c_natgridd(int, double [], double [], double [],
-                    int, int, double [], double [], int *);

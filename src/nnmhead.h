@@ -1,3 +1,16 @@
+/*
+ * $Id: nnmhead.h,v 1.13 2008/07/27 04:02:37 haley Exp $
+ */
+/************************************************************************
+*                                                                       *
+*                Copyright (C)  2000                                    *
+*        University Corporation for Atmospheric Research                *
+*                All Rights Reserved                                    *
+*                                                                       *
+*    The use of this Software is governed by a License Agreement.       *
+*                                                                       *
+************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -24,7 +37,7 @@ double  magx = 1, magy = 1, magz = 1, magx_orig, magy_orig, magz_orig,
         maxxy[2][3], magx_auto, magy_auto, magz_auto, *wts;
 
 int     igrad = 0, non_neg = 0, densi, sdip = 0, rads = 0, southhemi = 0,
-        extrap = 1, adf = 0, nndup = 1;
+        extrap = 1, adf = 0, nndup = 1, maxmsg = 10;
 
 int     datcnt, datcnt3, numtri, imag, numnei, iscale,
         ext, *jndx, neicnt, optim = 1, goodflag, updir = 1,
