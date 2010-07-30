@@ -6,7 +6,7 @@ package_dirs       = {'':'lib'}
 extensions = [Extension("mpl_toolkits.natgrid._natgrid",deps,include_dirs = ['src'],)]
 setup(
   name              = "natgrid",
-  version           = "0.2",
+  version           = "0.2.1",
   description       = "Python interface to NCAR natgrid library",
   url               = "http://matplotlib.sourceforge.net/toolkits.html",
   download_url      = "http://sourceforge.net/projects/matplotlib",

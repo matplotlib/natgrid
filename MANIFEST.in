@@ -3,3 +3,4 @@ include Copyright.txt
 include setupegg.py
 include test.py
 include src/*.h
+include src/ncarg/*h
